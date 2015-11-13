@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<paper>
+    <title>newspeaper</title>
+    <type>newspeaper</type>
+    <monthly>true</monthly>
+    <chars>
+        <char>
+            <color>false</color>
+            <numberOfPages>50</numberOfPages>
+            <glossy>false</glossy>
+            <subscriptionIndex>1234425</subscriptionIndex>
+        </char>
+    </chars>
+</paper>
