@@ -1,30 +1,43 @@
-package main.java.sax;
+package main.java.parser;
 
+import main.java.entity.Papers;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.*;
 import main.java.entity.Paper;
 
-public class SaxParserPeriodicalPublication extends DefaultHandler{
+import java.util.logging.Logger;
 
+public class SaxParser extends DefaultHandler{
+
+    public static final Logger LOG = Logger.getLogger(SaxParser.class.toString());
+
+    Papers papers = new Papers();
     Paper paper = new Paper();
     String thisElement = "";
 
-    public Paper getResult(){
-        return paper;
+    public Papers getResult(){
+        return papers;
     }
 
     @Override
     public void startDocument() throws SAXException {
-        System.out.println("Start parse XML...");
+        LOG.info("Start parse XML...");
     }
 
     @Override
     public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
         thisElement = qName;
+        if (thisElement == "paper"){
+            paper = new Paper();
+            papers.add(paper);
+        }
     }
 
     @Override
     public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
+        if (thisElement == "paper"){
+            papers.add(paper);
+        }
         thisElement = "";
     }
 
@@ -39,7 +52,7 @@ public class SaxParserPeriodicalPublication extends DefaultHandler{
                 break;
             case "color": paper.setColor(new Boolean(new String(ch,start,length)));
                 break;
-            case "numberOfPages": paper.setNumberOfPages(new Integer(new String(ch, start, length)));
+            case "numberOfPage": paper.setNumberOfPages(new Integer(new String(ch, start, length)));
                 break;
             case "glossy": paper.setGlossy(new Boolean(new String(ch,start,length)));
                 break;
@@ -50,6 +63,6 @@ public class SaxParserPeriodicalPublication extends DefaultHandler{
 
     @Override
     public void endDocument() {
-        System.out.println("Stop parse XML...");
+        LOG.info("Stop parse XML...");
     }
 }

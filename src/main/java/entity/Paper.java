@@ -1,22 +1,15 @@
 package main.java.entity;
 
 
+import java.io.File;
+import java.util.List;
+
 /**
  * Created by DiZi on 12.11.2015.
  */
 public class Paper {
-    @Override
-    public String toString() {
-        return "Paper{" +
-                "title='" + title + '\'' +
-                ", type='" + type + '\'' +
-                ", monthly=" + monthly +
-                ", color=" + color +
-                ", numberOfPages=" + numberOfPages +
-                ", glossy=" + glossy +
-                ", subscriptionIndex=" + subscriptionIndex +
-                '}';
-    }
+
+    private static final int SIZE = 4;
 
     private String title;
     private String type;
@@ -83,6 +76,60 @@ public class Paper {
 
     public void setSubscriptionIndex(int subscriptionIndex) {
         this.subscriptionIndex = subscriptionIndex;
+    }
+
+
+    public static byte[] parse(String ip)
+    {
+        final String[] strings = ip.split("\\.");
+        if(strings.length != SIZE)
+            throw new IllegalArgumentException("Invalid input string - '" + ip + "'");
+
+        byte[] bytes = new byte[SIZE];
+        for(int i = 0; i < strings.length; i++)
+        {
+            String s = strings[i];
+            int b = Integer.parseInt(s);
+            if(b < 0 || b > 255)
+                throw new IllegalArgumentException("Invalid input string - '" + ip + "'");
+
+            bytes[i] = (byte) b;
+        }
+        return bytes;
+    }
+
+    @Override
+    public String toString() {
+        return "Paper{" +
+                "title='" + title + '\'' +
+                ", type='" + type + '\'' +
+                ", monthly=" + monthly +
+                ", color=" + color +
+                ", numberOfPages=" + numberOfPages +
+                ", glossy=" + glossy +
+                ", subscriptionIndex=" + subscriptionIndex +
+                '}';
+    }
+
+    private static byte[] toByteArray(final int i)
+    {
+        byte[] bytes = new byte[SIZE];
+        bytes[0] = (byte) ((i >>> 24) & 0xFF);
+        bytes[1] = (byte) ((i >>> 16) & 0xFF);
+        bytes[2] = (byte) ((i >>> 8) & 0xFF);
+        bytes[3] = (byte) (i & 0xFF);
+        return bytes;
+    }
+
+    private static int toInt(final byte[] bytes)
+    {
+        if(bytes.length != SIZE)
+            throw new IllegalArgumentException("Invalid array length, expected - 4, found - " + bytes.length);
+
+        return ((bytes[0] & 0xFF) << 24) +
+                ((bytes[1] & 0xFF) << 16) +
+                ((bytes[2] & 0xFF) << 8) +
+                (bytes[3] & 0xFF);
     }
 
 
