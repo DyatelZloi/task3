@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="papers" type="papersType"/>
-    <xs:element name="papersType">
-    </xs:element>
-    <xs:complexType name="papersType">
-        <xs:sequence minOccurs="1" maxOccurs="unbounded">
-            <xs:element name="paper" type="paperType"/>
-        </xs:sequence>
-    </xs:complexType>
+    <xs:element name="papersType"/>
+        <xs:complexType name="papersType">
+            <xs:sequence minOccurs="1" maxOccurs="unbounded">
+                <xs:element name="paper" type="paperType"/>
+            </xs:sequence>
+        </xs:complexType>
     <xs:complexType name="paperType">
         <xs:sequence>
             <xs:element name="title" type="xs:string"/>
